@@ -1,0 +1,164 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan" style="color:#875A7B;">HR Asset Management</h2>
+            <h3 class="oe_slogan">Track company assets issued to employees</h3>
+            <p class="oe_mt32">
+                This module lets a company keep track of assets (equipment such as
+                laptops, tools and other devices) that are handed out to employees.
+                It is built on top of the standard <em>Equipment</em>
+                (<code>maintenance.equipment</code>) functionality and adds a full
+                issue/return workflow, a complete issue history and a printable
+                <em>Asset Issue Act</em> report.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h4 class="oe_slogan">Assets</h4>
+            <p>
+                Assets are managed in the <strong>Asset Management</strong> app.
+                The module reuses the standard equipment model, so categories,
+                serial numbers, vendors, costs and maintenance requests work out
+                of the box.
+            </p>
+            <div class="oe_demo oe_picture oe_screenshot">
+                <img class="img-responsive" src="screenshot_assets.png" alt="Assets kanban">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h4 class="oe_slogan">Issue an asset to an employee</h4>
+            <p>
+                Open an asset and click the <strong>Issue</strong> button. A wizard
+                lets you select the employee, the issue date and optional notes.
+                The asset is then automatically assigned to the selected employee
+                and the number of days since the issue date is computed on the fly.
+            </p>
+            <div class="oe_demo oe_picture oe_screenshot">
+                <img class="img-responsive" src="screenshot_issue_wizard.png" alt="Issue asset wizard">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h4 class="oe_slogan">Return an asset</h4>
+            <p>
+                Click the <strong>Return</strong> button on an issued asset to
+                return it to stock. The current issue record is closed, the
+                employee assignment is cleared and the asset can be issued again.
+                The asset form also shows the current issue reference, the number
+                of days the asset is issued and the full issue history.
+            </p>
+            <div class="oe_demo oe_picture oe_screenshot">
+                <img class="img-responsive" src="screenshot_asset_form.png" alt="Asset form">
+            </div>
+            <div class="alert alert-info oe_mt32" role="alert">
+                <i class="fa fa-info-circle"></i>
+                The same asset cannot be issued to more than one employee at the
+                same time. The constraint is enforced both in the wizard and on
+                the issue records themselves.
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h4 class="oe_slogan">Issue history</h4>
+            <p>
+                Every issue and return is stored as a history record with a unique
+                reference. The kanban view groups records by asset by default;
+                grouping by employee, department or issue month is available in
+                the search panel. Each card shows the employee, dates, the number
+                of days and the status.
+            </p>
+            <div class="oe_demo oe_picture oe_screenshot">
+                <img class="img-responsive" src="screenshot_history_kanban.png" alt="Issue history kanban">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h4 class="oe_slogan">Issue record</h4>
+            <p>
+                The issue form shows the asset, employee, department, dates,
+                computed days issued and the responsible user. The status bar
+                tracks the <em>Issued</em> / <em>Returned</em> state and the
+                <strong>Return</strong> button closes the record.
+            </p>
+            <div class="oe_demo oe_picture oe_screenshot">
+                <img class="img-responsive" src="screenshot_issue_form.png" alt="Issue form">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h4 class="oe_slogan">Asset Issue Act report</h4>
+            <p>
+                A printable <strong>Asset Issue Act</strong> PDF
+                report is available under the <em>Print</em> menu of every issue
+                record. It contains the act number and date, the employee details
+                (name, position, department), the asset details (name, category,
+                model, serial number), the issue/return dates, the number of days
+                and signature blocks for both parties.
+            </p>
+            <div class="oe_demo oe_picture oe_screenshot">
+                <img class="img-responsive" src="screenshot_report.png" alt="Asset Issue Act report">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h4 class="oe_slogan">Employee integration</h4>
+            <p>
+                The employee form gets an <strong>Assets</strong> smart button
+                showing the number of issue records and giving one-click access
+                to the full list of assets issued to that employee.
+            </p>
+            <div class="oe_demo oe_picture oe_screenshot">
+                <img class="img-responsive" src="screenshot_employee.png" alt="Employee form">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h4 class="oe_slogan">Features summary</h4>
+            <ul class="oe_mt32">
+                <li>Built on standard equipment (<code>maintenance.equipment</code>) and employee assignment from <code>hr_maintenance</code>.</li>
+                <li>Issue wizard: assign an asset to an employee with one click.</li>
+                <li>Return button: bring the asset back to stock.</li>
+                <li>Issue history with automatic numbering (<code>ASI/YYYY/NNNN</code>).</li>
+                <li>Uniqueness check: no asset can be issued twice at the same time.</li>
+                <li>Automatic computation of days issued on the asset and on each issue record.</li>
+                <li>Kanban history grouped by asset or employee.</li>
+                <li>Printable Asset Issue Act PDF report.</li>
+                <li>Smart buttons on asset and employee forms.</li>
+                <li>Issue/return operations are restricted to the <em>Equipment Manager</em> group (<code>maintenance.group_equipment_manager</code>).</li>
+            </ul>
+        </div>
+    </div>
+</section>

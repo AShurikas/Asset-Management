@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_hr_asset_issue_document">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page"
+                        t-att-style="'page-break-before: always;' if not o_first else ''">
+                        <h2 class="text-center">Asset Issue Act</h2>
+                        <p class="text-center">
+                            <strong>No <span t-field="o.name"/></strong>
+                            <br/>
+                            <span>dated <span t-field="o.issue_date"/></span>
+                        </p>
+
+                        <p>
+                            This act certifies that the company
+                            <strong t-field="o.company_id">Company</strong>,
+                            represented by <span t-field="o.user_id"/>,
+                            has handed over the following asset to the employee,
+                            who accepts it and undertakes to use it carefully and
+                            return it upon the company's request.
+                        </p>
+
+                        <div class="row o_header mt-4">
+                            <div class="col-6">
+                                <h5><strong>Employee</strong></h5>
+                                <div class="row">
+                                    <div class="col-4 fw-bold"><span>Name:</span></div>
+                                    <div class="col-8"><span t-field="o.employee_id"/></div>
+                                </div>
+                                <div class="row" t-if="o.employee_id.job_id">
+                                    <div class="col-4 fw-bold"><span>Position:</span></div>
+                                    <div class="col-8"><span t-field="o.employee_id.job_id"/></div>
+                                </div>
+                                <div class="row" t-if="o.department_id">
+                                    <div class="col-4 fw-bold"><span>Department:</span></div>
+                                    <div class="col-8"><span t-field="o.department_id"/></div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h5><strong>Asset</strong></h5>
+                                <div class="row">
+                                    <div class="col-4 fw-bold"><span>Name:</span></div>
+                                    <div class="col-8"><span t-field="o.equipment_id"/></div>
+                                </div>
+                                <div class="row" t-if="o.equipment_id.category_id">
+                                    <div class="col-4 fw-bold"><span>Category:</span></div>
+                                    <div class="col-8"><span t-field="o.equipment_id.category_id"/></div>
+                                </div>
+                                <div class="row" t-if="o.equipment_id.model">
+                                    <div class="col-4 fw-bold"><span>Model:</span></div>
+                                    <div class="col-8"><span t-field="o.equipment_id.model"/></div>
+                                </div>
+                                <div class="row" t-if="o.equipment_id.serial_no">
+                                    <div class="col-4 fw-bold"><span>Serial No:</span></div>
+                                    <div class="col-8"><span t-field="o.equipment_id.serial_no"/></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm o_main_table mt-4">
+                            <thead>
+                                <tr>
+                                    <th class="text-start">Issue Date</th>
+                                    <th class="text-start">Return Date</th>
+                                    <th class="text-end">Days Issued</th>
+                                    <th class="text-start">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-start"><span t-field="o.issue_date"/></td>
+                                    <td class="text-start"><span t-field="o.return_date"/></td>
+                                    <td class="text-end"><span t-field="o.days_issued"/></td>
+                                    <td class="text-start"><span t-field="o.state"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p t-if="o.note">
+                            <strong>Notes: </strong><span t-field="o.note"/>
+                        </p>
+
+                        <div class="row mt-5">
+                            <div class="col-6">
+                                <p><strong>Issued by:</strong></p>
+                                <p>
+                                    <span t-field="o.user_id"/>
+                                    <br/><br/>
+                                    __________________________
+                                    <br/>
+                                    (signature)
+                                </p>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>Received by:</strong></p>
+                                <p>
+                                    <span t-field="o.employee_id"/>
+                                    <br/><br/>
+                                    __________________________
+                                    <br/>
+                                    (signature)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_asset_issue_act" model="ir.actions.report">
+        <field name="name">Asset Issue Act</field>
+        <field name="model">hr.asset.issue</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hr_asset_management.report_hr_asset_issue_document</field>
+        <field name="report_file">hr_asset_management.report_hr_asset_issue_document</field>
+        <field name="print_report_name">'Asset Issue Act - %s' % (object.name or 'New')</field>
+        <field name="binding_model_id" ref="model_hr_asset_issue"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

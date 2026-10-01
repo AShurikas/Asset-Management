@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_asset_issue_view_kanban" model="ir.ui.view">
+        <field name="name">hr.asset.issue.kanban</field>
+        <field name="model">hr.asset.issue</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="equipment_id" sample="1">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="equipment_id"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="issue_date"/>
+                <field name="return_date"/>
+                <field name="days_issued"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="menu">
+                        <t t-if="widget.editable"><a role="menuitem" type="open" class="dropdown-item">Edit...</a></t>
+                    </t>
+                    <t t-name="card">
+                        <div class="d-flex">
+                            <field name="name" class="fw-bold"/>
+                            <span class="ms-auto badge"
+                                t-attf-class="{{record.state.raw_value == 'issued' ? 'text-bg-warning' : 'text-bg-success'}}">
+                                <field name="state"/>
+                            </span>
+                        </div>
+                        <field name="employee_id" widget="many2one_avatar_employee"/>
+                        <div>
+                            <i class="fa fa-sign-out" title="Issue Date"/>
+                            <field name="issue_date" widget="date"/>
+                        </div>
+                        <div t-if="record.return_date.raw_value">
+                            <i class="fa fa-sign-in" title="Return Date"/>
+                            <field name="return_date" widget="date"/>
+                        </div>
+                        <footer>
+                            <span class="text-muted">
+                                <field name="days_issued"/> day(s)
+                            </span>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="hr_asset_issue_view_list" model="ir.ui.view">
+        <field name="name">hr.asset.issue.list</field>
+        <field name="model">hr.asset.issue</field>
+        <field name="arch" type="xml">
+            <list decoration-warning="state == 'issued'"
+                decoration-success="state == 'returned'"
+                sample="1">
+                <field name="name"/>
+                <field name="equipment_id"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="issue_date"/>
+                <field name="return_date"/>
+                <field name="days_issued"/>
+                <field name="state" widget="badge"
+                    decoration-warning="state == 'issued'"
+                    decoration-success="state == 'returned'"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_asset_issue_view_form" model="ir.ui.view">
+        <field name="name">hr.asset.issue.form</field>
+        <field name="model">hr.asset.issue</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_return"
+                        type="object"
+                        string="Return"
+                        class="btn-primary"
+                        groups="maintenance.group_equipment_manager"
+                        invisible="state != 'issued'"/>
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="issued,returned"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="equipment_id"
+                                options="{'no_create_edit': True}"/>
+                            <field name="employee_id"
+                                widget="many2one_avatar_employee"/>
+                            <field name="department_id"/>
+                        </group>
+                        <group>
+                            <field name="issue_date"/>
+                            <field name="return_date"
+                                invisible="state != 'returned'"/>
+                            <field name="days_issued"/>
+                            <field name="user_id"
+                                widget="many2one_avatar_user"/>
+                            <field name="company_id"
+                                groups="base.group_multi_company"
+                                options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Notes" name="notes">
+                            <field name="note" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_asset_issue_view_search" model="ir.ui.view">
+        <field name="name">hr.asset.issue.search</field>
+        <field name="model">hr.asset.issue</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="equipment_id"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <filter name="filter_issued"
+                    string="Issued"
+                    domain="[('state', '=', 'issued')]"/>
+                <filter name="filter_returned"
+                    string="Returned"
+                    domain="[('state', '=', 'returned')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_equipment"
+                        string="Asset"
+                        domain="[]"
+                        context="{'group_by': 'equipment_id'}"/>
+                    <filter name="group_by_employee"
+                        string="Employee"
+                        domain="[]"
+                        context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_by_department"
+                        string="Department"
+                        domain="[]"
+                        context="{'group_by': 'department_id'}"/>
+                    <filter name="group_by_issue_month"
+                        string="Issue Month"
+                        domain="[]"
+                        context="{'group_by': 'issue_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hr_asset_issue" model="ir.actions.act_window">
+        <field name="name">Issue History</field>
+        <field name="res_model">hr.asset.issue</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="hr_asset_issue_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No asset issues yet. Issue an asset to an employee to see it here.
+            </p>
+        </field>
+    </record>
+
+</odoo>

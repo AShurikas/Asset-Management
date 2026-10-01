@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="maintenance_equipment_view_form_inherit_asset" model="ir.ui.view">
+        <field name="name">maintenance.equipment.view.form.inherit.asset</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_issue"
+                        type="object"
+                        string="Issue"
+                        class="btn-primary"
+                        groups="maintenance.group_equipment_manager"
+                        invisible="current_issue_id or employee_id"/>
+                    <button name="action_return_asset"
+                        type="object"
+                        string="Return"
+                        groups="maintenance.group_equipment_manager"
+                        invisible="not current_issue_id and not employee_id"/>
+                </header>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_asset_issues"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-exchange">
+                    <field name="asset_issue_count"
+                        widget="statinfo"
+                        string="Issue History"/>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='assign_date']" position="after">
+                <field name="current_issue_id"
+                    invisible="not current_issue_id"
+                    options="{'no_create_edit': True}"/>
+                <field name="days_issued"
+                    invisible="not current_issue_id"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Issue History" name="issue_history">
+                    <field name="asset_issue_ids" nolabel="1">
+                        <list>
+                            <field name="name"/>
+                            <field name="employee_id"/>
+                            <field name="issue_date"/>
+                            <field name="return_date"/>
+                            <field name="days_issued"/>
+                            <field name="state" widget="badge"
+                                decoration-warning="state == 'issued'"
+                                decoration-success="state == 'returned'"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="maintenance_equipment_view_list_inherit_asset" model="ir.ui.view">
+        <field name="name">maintenance.equipment.view.list.inherit.asset</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='serial_no']" position="after">
+                <field name="days_issued" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

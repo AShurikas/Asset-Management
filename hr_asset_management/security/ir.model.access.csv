@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_asset_issue_user,hr.asset.issue user,model_hr_asset_issue,base.group_user,1,0,0,0
+access_hr_asset_issue_manager,hr.asset.issue manager,model_hr_asset_issue,maintenance.group_equipment_manager,1,1,1,1
+access_hr_asset_issue_wizard_manager,hr.asset.issue.wizard manager,model_hr_asset_issue_wizard,maintenance.group_equipment_manager,1,1,1,1

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_hr_asset_equipment" model="ir.actions.act_window">
+        <field name="name">Assets</field>
+        <field name="res_model">maintenance.equipment</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new asset to track it and issue it to employees.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_hr_asset_management_root"
+        name="Asset Management"
+        sequence="55"
+        web_icon="hr_asset_management,static/description/icon.png"/>
+
+    <menuitem id="menu_hr_asset_equipment"
+        name="Assets"
+        parent="menu_hr_asset_management_root"
+        action="action_hr_asset_equipment"
+        sequence="10"/>
+
+    <menuitem id="menu_hr_asset_issue"
+        name="Issue History"
+        parent="menu_hr_asset_management_root"
+        action="action_hr_asset_issue"
+        sequence="20"/>
+
+</odoo>
